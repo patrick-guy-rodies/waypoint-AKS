@@ -1,0 +1,4 @@
+baseURL = "http://20.71.141.225/"
+languageCode = "en-uk"
+title = "Waypoint Testing with Hugo"
+theme = "ananke"
