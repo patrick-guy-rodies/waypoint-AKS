@@ -123,10 +123,7 @@ The waypoint.hcl configuration file gives Waypoint instructions for how to build
 
 If Waypoint cannot find the app's configuration file when you run waypoint init, Waypoint will create a starter waypoint.hcl file that you can customize for your application.
 
-The remainder of this walkthrough uses the example NodeJS application to show how to initialize an app and then build, deploy, and release it with Waypoint.
-
-In the actual repository, we have setup a Hugo project. Please check Reference at the start of this README
-
+The remainder of this walkthrough uses the example of a setup from a Hugo project. Please check Reference at the start of this README
 
 
 ``` bash
