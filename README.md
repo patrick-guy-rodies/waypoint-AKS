@@ -65,7 +65,7 @@ Common commands:
 ```
 
 
-### Install the Waypoint server TO BE CONFIRMED ON ACTUAL SANDBOX, REMOVE ACTUAL IMPLEMENTATION ANDNTRY AGAIN
+### Install the Waypoint server
 
 Using your Kubernetes environment, install the Waypoint server on it with the install command. The -accept-tos flag confirms that you accept the terms of service for our application URL service.
 
@@ -139,3 +139,82 @@ statefulset.apps/waypoint-server   1/1     14m
 
 ```
 You can also use the external IP from the service to access the Web UI
+
+### Initialize Waypoint
+
+Before you can build and deploy your application, you must initialize it with the init command.
+
+When you initialize Waypoint for your application, Waypoint first looks for a Waypoint configuration file (waypoint.hcl) for the app in the directory.
+
+The waypoint.hcl configuration file gives Waypoint instructions for how to build, deploy, and release your application.
+
+If Waypoint cannot find the app's configuration file when you run waypoint init, Waypoint will create a starter waypoint.hcl file that you can customize for your application.
+
+The remainder of this walkthrough uses the example NodeJS application to show how to initialize an app and then build, deploy, and release it with Waypoint.
+
+In the actual repository, we have setup a Hugo project. Please check Reference at the start of this README
+
+
+
+``` bash
+
+$ cat waypoint.hcl
+
+# The name of your project. A project typically maps 1:1 to a VCS repository.
+# This name must be unique for your Waypoint server. If you're running in
+# local mode, this must be unique to your machine.
+project = "hugo-project"
+
+
+
+# An application to deploy.
+app "web" {
+    # Build specifies how an application should be deployed. In this case,
+    # we'll build using a Dockerfile and keeping it in a local registry.
+    build {
+        hook {
+            when = "before"
+            command = ["hugo"]
+            on_failure = "fail"
+        }
+        use "docker" {}
+            registry {
+            use "docker" {
+                image = "pgr095.azurecr.io/example-hugo"
+                tag   = "latest"
+            }
+        }
+  }
+
+  deploy {
+    use "kubernetes" {
+      probe_path = "/"
+      service_port = "80"
+    }
+  }
+
+  release {
+    use "kubernetes" {
+      load_balancer = true
+      port          = 80
+    }
+  }
+}
+
+```
+
+The build clause defines how Waypoint will build the application.
+
+The hook command tell how to build the package and when
+
+The deploy clause defines where Waypoint will deploy the application. The kubernetes option tells Waypoint to deploy the application to Kubernetes.
+
+The release stanza defines how our application will be released to our environment. For example, in the case of external Kubernetes clusters this would be where you would configure a load_balanacer on a specific port.
+
+With these configurations in place, execute the following command in order to initialize Waypoint with this configuration.
+
+``` bash
+
+$ waypoint init
+
+```
