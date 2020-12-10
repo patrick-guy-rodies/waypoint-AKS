@@ -203,6 +203,8 @@ You can now deploy the application to Kubernetes by running waypoint up.
 
 ``` bash
 
+$ waypoint up
+
 » Building...Start building sites …
 
                    | EN
@@ -264,21 +266,14 @@ Deployment URL: https://vastly-legal-starfish--v1.waypoint.run
 
 
 ---
-
-**NOTE**
-
 TIP: It make take a few minutes to copy the image to the remote server, depending on the speed of your internet connection.
-
 ---
 
 
 Waypoint will show the progressive status of the build, deploy, and release steps in the Terminal output. As part of the deployment workflow, Waypoint creates a preview URL for your application.
 
 ---
-**NOTE**
-
 TIP: The preview URL is optional and can be disabled in the Waypoint server configuration.
-
 ---
 
 
