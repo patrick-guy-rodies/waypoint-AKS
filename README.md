@@ -188,3 +188,125 @@ With these configurations in place, execute the following command in order to in
 $ waypoint init
 
 ```
+
+### Build, deploy and release application
+
+This application is configured to use Cloud Native Buildpacks to detect the type of application running and to launch it within Kubernetes. Because Waypoint uses the appropriate buildpack to create the Dockerfile, you do not need to create the file yourself.
+
+Once Waypoint completes a build, it stores the artifacts in either a local or remote registry.
+
+The registry clause in the waypoint.hcl file specifies where to store the app's artifacts. If the registry clause is not present, Waypoint will default to using the local Docker instance to store the application's artifacts.
+
+For this example application, Waypoint will store the image in a remote Docker repository after the application is built.
+
+You can now deploy the application to Kubernetes by running waypoint up.
+
+``` bash
+
+» Building...Start building sites …
+
+                   | EN
+-------------------+-----
+  Pages            | 11
+  Paginator pages  |  0
+  Non-page files   |  0
+  Static files     |  6
+  Processed images |  0
+  Aliases          |  1
+  Sitemaps         |  1
+  Cleaned          |  0
+
+Total in 312 ms
+
+ + Initializing Docker client...
+ + Building image...
+ │ Step 1/3 : FROM nginx
+ │  ---> f68d6e55e065
+ │ Step 2/3 : COPY public/ /usr/share/nginx/html/
+ │  ---> Using cache
+ │  ---> 126819d24b2d
+ │ Step 3/3 : RUN ls -la /usr/share/nginx/html/*
+ │  ---> Using cache
+ │  ---> 3b6208cffbfe
+ │ Successfully built 3b6208cffbfe
+ │ Successfully tagged waypoint.local/web:latest
+ + Injecting Waypoint Entrypoint...
+ + Tagging Docker image: waypoint.local/web:latest => pgr095.azurecr.io/example-hugo:latest
+ + Pushing Docker image...
+ │ The push refers to repository [pgr095.azurecr.io/example-hugo]
+ │ 4772bbfa8963: Layer already exists
+ │ 821b3af2494a: Layer already exists
+ │ d2f0b6dea592: Layer already exists
+ │ 197c666de9dd: Layer already exists
+ │ cf5b3c6798f7: Layer already exists
+ │ latest: digest: sha256:12c35ba1c12450597a6f7c5d946ce9c7ccea9b0c47bb3b63d19eab6f1
+ │ dceed93 size: 1370
+
+» Deploying...
+ + Kubernetes client connected to https://staticevent-b7a5816a.hcp.westeurope.azmk8s.io:443 with namespace default
+ + Creating deployment...
+ + Deployment successfully rolled out!
+
+» Releasing...
+ + Kubernetes client connected to https://staticevent-b7a5816a.hcp.westeurope.azmk8s.io:443 with namespace default
+ + Updating service...
+ + Service is ready!
+
+The deploy was successful! A Waypoint deployment URL is shown below. This
+can be used internally to check your deployment and is not meant for external
+traffic. You can manage this hostname using "waypoint hostname."
+
+   Release URL: http://20.71.141.225
+Deployment URL: https://vastly-legal-starfish--v1.waypoint.run
+
+
+``` 
+
+
+---
+
+**NOTE**
+
+TIP: It make take a few minutes to copy the image to the remote server, depending on the speed of your internet connection.
+
+---
+
+
+Waypoint will show the progressive status of the build, deploy, and release steps in the Terminal output. As part of the deployment workflow, Waypoint creates a preview URL for your application.
+
+---
+**NOTE**
+
+TIP: The preview URL is optional and can be disabled in the Waypoint server configuration.
+
+---
+
+
+Waypoint will show the result of your deployment in the Terminal, along with your specific preview URL.
+
+The deploy was successful! A Waypoint deployment URL is shown below. This
+can be used internally to check your deployment and is not meant for external
+traffic. You can manage this hostname using "waypoint hostname."
+
+
+### Update and redeploy the application
+One of the most powerful parts of Waypoint is its ability to iterate on deployments and quickly redeploy the application with your changes in place.
+
+Open views/pages/index.ejs in your preferred development editor:
+
+$ vi views/pages/index.ejs
+Copy
+Near line 18, change the text to anything that you like, such as today's date.
+
+<h1>This Node.js app was deployed with Waypoint on 1/1/2045.</h1>
+Copy
+Back in the Terminal, redeploy the application with your new and improved text.
+
+$ waypoint up
+Copy
+Waypoint has now redeployed your application.
+
+You will notice that the Deployment URL for this second deployment is different from what was created for the first deployment. Waypoint generates unique URLs for each deployment, which means that you can access each deployment by using their unique deployment URLs. This is typically used to preview a deployment before releasing it.
+
+Now, open the new Deployment URL and verify that your modified text is running in the application.
+
