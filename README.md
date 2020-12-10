@@ -287,23 +287,27 @@ traffic. You can manage this hostname using "waypoint hostname."
 
 
 ### Update and redeploy the application
+
 One of the most powerful parts of Waypoint is its ability to iterate on deployments and quickly redeploy the application with your changes in place.
 
-Open views/pages/index.ejs in your preferred development editor:
+Open content/posts/my-second-post.md in your preferred development editor:
 
-$ vi views/pages/index.ejs
-Copy
-Near line 18, change the text to anything that you like, such as today's date.
+``` bash
 
-<h1>This Node.js app was deployed with Waypoint on 1/1/2045.</h1>
-Copy
-Back in the Terminal, redeploy the application with your new and improved text.
+$ vi content/posts/my-second-post.md
+
+```
+
+Change any text to deploy new changes, close your editor and redeployed your application.
+
+``` bash
 
 $ waypoint up
-Copy
+
+```
+
 Waypoint has now redeployed your application.
 
 You will notice that the Deployment URL for this second deployment is different from what was created for the first deployment. Waypoint generates unique URLs for each deployment, which means that you can access each deployment by using their unique deployment URLs. This is typically used to preview a deployment before releasing it.
 
 Now, open the new Deployment URL and verify that your modified text is running in the application.
-
