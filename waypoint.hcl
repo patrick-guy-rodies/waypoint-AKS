@@ -28,6 +28,7 @@ app "web" {
     use "kubernetes" {
       probe_path = "/"
       service_port = "80"
+      namespace = "waypoint"
     }
   }
 
@@ -35,6 +36,7 @@ app "web" {
     use "kubernetes" {
       load_balancer = true
       port          = 80
+      namespace = "waypoint"
     }
   }
 }

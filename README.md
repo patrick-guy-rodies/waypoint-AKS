@@ -267,6 +267,7 @@ Deployment URL: https://vastly-legal-starfish--v1.waypoint.run
 
 ---
 TIP: It make take a few minutes to copy the image to the remote server, depending on the speed of your internet connection.
+
 ---
 
 
@@ -274,6 +275,7 @@ Waypoint will show the progressive status of the build, deploy, and release step
 
 ---
 TIP: The preview URL is optional and can be disabled in the Waypoint server configuration.
+
 ---
 
 
